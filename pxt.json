@@ -2,7 +2,9 @@
     "name": "Waterloo Goose Game",
     "description": "",
     "dependencies": {
-        "device": "*"
+        "device": "*",
+        "controller": "*",
+        "maker-controller": "github:microsoft/pxt-maker-controller#v0.0.7"
     },
     "files": [
         "main.blocks",
