@@ -1,52 +1,31 @@
 controller.A.onEvent(ControllerButtonEvent.Pressed, function () {
     x = 0
     while (controller.A.isPressed()) {
-        for (let index = 0; index < 1; index++) {
-            Goose.setVelocity(0, -50)
-            Goose.setImage(img`
-                . . . . . . . . . . . . . . . . 
-                . . . . . . . . . . . . . . . . 
-                . . . . . . . . . . . . . . . . 
-                . . . . . . . . . . . . . . . . 
-                . . . . . . . . . . . . f . . . 
-                . . . . . . . . . . . f 1 f . . 
-                . . f f . . . . . . f 1 1 1 f . 
-                . . . 1 f . . f f f . . f f . . 
-                . . . 1 1 f f 1 1 f f . . . . . 
-                . . . . f 1 1 1 1 1 f . . . . . 
-                . . . f 1 1 1 1 1 1 f . . . . . 
-                . . . . f 1 1 1 1 f . . . . . . 
-                . . . . . f f f f . . . . . . . 
-                . . . . . . . . . . . . . . . . 
-                . . . . . . . . . . . . . . . . 
-                . . . . . . . . . . . . . . . . 
-                `)
-            pause(500)
-            Goose.setImage(img`
-                . . . . . . . . . . . . . . . . 
-                . . . . . . . . . . . . . . . . 
-                . . . . . . . . . . . . . . . . 
-                . . . . . . . . . . . . . . . . 
-                . . . . . . . . . . . . f . . . 
-                . . . . . . . . . . . f 1 f . . 
-                . . f f . . . . . . f 1 1 1 f . 
-                . . . 1 f . . f f f . . f f . . 
-                . . . 1 1 f f 1 1 f f . . . . . 
-                . . . . f 1 1 1 1 1 f . . . . . 
-                . . . f 1 1 1 1 1 1 f . . . . . 
-                . . . . f 1 1 1 1 f . . . . . . 
-                . . . . . f f f f . . . . . . . 
-                . . . . . . . . . . . . . . . . 
-                . . . . . . . . . . . . . . . . 
-                . . . . . . . . . . . . . . . . 
-                `)
-            x += 1
-        }
+        Goose.setVelocity(0, -50)
+        Goose.setImage(img`
+            . . . . . . . . . . . . . . . . 
+            . . . . . . . . . . . . . . . . 
+            . . . . . . . . . . . . . . . . 
+            . . . . . . . . . . . . . . . . 
+            . . . . . . . . . . . . f . . . 
+            . . . . . . . . . . . f 1 f . . 
+            . . f f . . . . . . f 1 1 1 f . 
+            . . . 1 f . . f f f . . f f . . 
+            . . . 1 1 f f 1 1 f f . . . . . 
+            . . . . f 1 1 1 1 1 f . . . . . 
+            . . . f 1 1 1 1 1 1 f . . . . . 
+            . . . . f 1 1 1 1 f . . . . . . 
+            . . . . . f f f f . . . . . . . 
+            . . . . . . . . . . . . . . . . 
+            . . . . . . . . . . . . . . . . 
+            . . . . . . . . . . . . . . . . 
+            `)
+        pause(500)
         break;
     }
-    for (let index = 0; index < x; index++) {
-        Goose.setVelocity(0, 50)
-        pause(500)
+    Goose.setVelocity(0, 50)
+    while (Goose.y < 96) {
+        pause(0.1)
     }
     Goose.setVelocity(0, 0)
 })
@@ -234,48 +213,6 @@ forever(function () {
             pause(randint(1000, 2000))
         }
     }
-})
-forever(function () {
-    Wall = sprites.createProjectileFromSprite(img`
-        . . . . . . . . . . . . . . . . 
-        . . . . . . . . . . . . . . . . 
-        . . . . . . . f f f f . . . . . 
-        . . . . . . . f f f f . . . . . 
-        . . . . . . . f f f f . . . . . 
-        . . . . . . . f f f f . . . . . 
-        . . . . . . . f f f f . . . . . 
-        . . . . . . . f f f f . . . . . 
-        . . . . . . . f f f f . . . . . 
-        . . . . . . . f f f f . . . . . 
-        . . . . . . . f f f f . . . . . 
-        . . . . . . . f f f f . . . . . 
-        . . . . . . . f f f f . . . . . 
-        . . . . . . . f f f f . . . . . 
-        . . . . . . . f f f f . . . . . 
-        . . . . . . . . . . . . . . . . 
-        `, Goose, -50, 0)
-    Wall.setPosition(160, 96)
-    Points = sprites.create(img`
-        . . . . . . . . 5 5 . . . . . . 
-        . . . . . . . . 5 5 . . . . . . 
-        . . . . . . . . . . . . . . . . 
-        . . . . . . . . . . . . . . . . 
-        . . . . . . . . . . . . . . . . 
-        . . . . . . . . . . . . . . . . 
-        . . . . . . . . . . . . . . . . 
-        . . . . . . . . . . . . . . . . 
-        . . . . . . . . . . . . . . . . 
-        . . . . . . . . . . . . . . . . 
-        . . . . . . . . . . . . . . . . 
-        . . . . . . . . . . . . . . . . 
-        . . . . . . . . . . . . . . . . 
-        . . . . . . . . . . . . . . . . 
-        . . . . . . . . . . . . . . . . 
-        . . . . . . . . . . . . . . . . 
-        `, SpriteKind.Food)
-    Points.setPosition(160, 85)
-    Points.setVelocity(-50, 0)
-    pause(randint(800, 3000))
 })
 forever(function () {
     scene.setBackgroundImage(img`
@@ -1016,6 +953,48 @@ forever(function () {
         dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd
         `)
     pause(400)
+})
+forever(function () {
+    Wall = sprites.createProjectileFromSprite(img`
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . f f f f . . . . . 
+        . . . . . . . f f f f . . . . . 
+        . . . . . . . f f f f . . . . . 
+        . . . . . . . f f f f . . . . . 
+        . . . . . . . f f f f . . . . . 
+        . . . . . . . f f f f . . . . . 
+        . . . . . . . f f f f . . . . . 
+        . . . . . . . f f f f . . . . . 
+        . . . . . . . f f f f . . . . . 
+        . . . . . . . f f f f . . . . . 
+        . . . . . . . f f f f . . . . . 
+        . . . . . . . f f f f . . . . . 
+        . . . . . . . f f f f . . . . . 
+        . . . . . . . . . . . . . . . . 
+        `, Goose, -50, 0)
+    Wall.setPosition(160, 96)
+    Points = sprites.create(img`
+        . . . . . . . . 5 5 . . . . . . 
+        . . . . . . . . 5 5 . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        `, SpriteKind.Food)
+    Points.setPosition(160, 85)
+    Points.setVelocity(-50, 0)
+    pause(randint(800, 3000))
 })
 forever(function () {
     Goose.setImage(img`
