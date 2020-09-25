@@ -1,3 +1,11 @@
+namespace SpriteKind {
+    export const Ammo = SpriteKind.create()
+    export const FProjectile = SpriteKind.create()
+}
+sprites.onOverlap(SpriteKind.FProjectile, SpriteKind.Projectile, function (sprite, otherSprite) {
+    Bread_Missle.destroy(effects.confetti, 500)
+    otherSprite.destroy()
+})
 controller.A.onEvent(ControllerButtonEvent.Pressed, function () {
     x = 0
     while (controller.A.isPressed()) {
@@ -29,6 +37,10 @@ controller.A.onEvent(ControllerButtonEvent.Pressed, function () {
     }
     Goose.setVelocity(0, 0)
 })
+sprites.onOverlap(SpriteKind.Player, SpriteKind.Ammo, function (sprite, otherSprite) {
+    otherSprite.destroy()
+    BAmmo += 1
+})
 sprites.onOverlap(SpriteKind.Player, SpriteKind.Projectile, function (sprite, otherSprite) {
     otherSprite.destroy()
     info.setLife(-1)
@@ -37,10 +49,13 @@ sprites.onOverlap(SpriteKind.Player, SpriteKind.Food, function (sprite, otherSpr
     otherSprite.destroy()
     info.changeScoreBy(1)
 })
+let bread: Sprite = null
 let Points: Sprite = null
 let Wall: Sprite = null
 let Missle: Sprite = null
 let x = 0
+let Bread_Missle: Sprite = null
+let BAmmo = 0
 let Goose: Sprite = null
 scene.setBackgroundImage(img`
     1111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111
@@ -186,6 +201,7 @@ Goose.setPosition(20, 96)
 Goose.setFlag(SpriteFlag.StayInScreen, true)
 info.setLife(1)
 info.setScore(0)
+BAmmo += 1
 forever(function () {
     pause(5000)
     if (info.player1.score() >= 10) {
@@ -213,6 +229,72 @@ forever(function () {
             pause(randint(1000, 2000))
         }
     }
+})
+forever(function () {
+    Wall = sprites.createProjectileFromSprite(img`
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . f f f f . . . . . 
+        . . . . . . . f f f f . . . . . 
+        . . . . . . . f f f f . . . . . 
+        . . . . . . . f f f f . . . . . 
+        . . . . . . . f f f f . . . . . 
+        . . . . . . . f f f f . . . . . 
+        . . . . . . . f f f f . . . . . 
+        . . . . . . . f f f f . . . . . 
+        . . . . . . . f f f f . . . . . 
+        . . . . . . . f f f f . . . . . 
+        . . . . . . . f f f f . . . . . 
+        . . . . . . . f f f f . . . . . 
+        . . . . . . . f f f f . . . . . 
+        . . . . . . . . . . . . . . . . 
+        `, Goose, -50, 0)
+    Wall.setPosition(160, 96)
+    Points = sprites.create(img`
+        . . . . . . . . 5 5 . . . . . . 
+        . . . . . . . . 5 5 . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        `, SpriteKind.Food)
+    Points.setPosition(160, 85)
+    Points.setVelocity(-50, 0)
+    if (info.player1.score() >= 15) {
+        if (randint(0, 10) == 1) {
+            bread = sprites.create(img`
+                . . . . . . . . . . . . . . . . 
+                . . . . . . . . . . . . . . . . 
+                . . . . . . . . . . . . . . . . 
+                . . . . . . . . . . . . . . . . 
+                . . . . . . . . . . . . . . . . 
+                . . . e e . . e e . . e e . . . 
+                . . e d d e e d d e e d d e . . 
+                . e d d d d e d d d e d d d e . 
+                . e 4 d d d e d d d e d d 4 e . 
+                . e 4 4 d d d d d d d d 4 4 e . 
+                . . e 4 4 4 4 4 4 4 4 4 4 e . . 
+                . . . e e e e e e e e e e . . . 
+                . . . . . . . . . . . . . . . . 
+                . . . . . . . . . . . . . . . . 
+                . . . . . . . . . . . . . . . . 
+                . . . . . . . . . . . . . . . . 
+                `, SpriteKind.Ammo)
+            bread.setPosition(160, 90)
+            bread.setVelocity(-50, 0)
+        }
+    }
+    pause(randint(800, 3000))
 })
 forever(function () {
     scene.setBackgroundImage(img`
@@ -955,48 +1037,6 @@ forever(function () {
     pause(400)
 })
 forever(function () {
-    Wall = sprites.createProjectileFromSprite(img`
-        . . . . . . . . . . . . . . . . 
-        . . . . . . . . . . . . . . . . 
-        . . . . . . . f f f f . . . . . 
-        . . . . . . . f f f f . . . . . 
-        . . . . . . . f f f f . . . . . 
-        . . . . . . . f f f f . . . . . 
-        . . . . . . . f f f f . . . . . 
-        . . . . . . . f f f f . . . . . 
-        . . . . . . . f f f f . . . . . 
-        . . . . . . . f f f f . . . . . 
-        . . . . . . . f f f f . . . . . 
-        . . . . . . . f f f f . . . . . 
-        . . . . . . . f f f f . . . . . 
-        . . . . . . . f f f f . . . . . 
-        . . . . . . . f f f f . . . . . 
-        . . . . . . . . . . . . . . . . 
-        `, Goose, -50, 0)
-    Wall.setPosition(160, 96)
-    Points = sprites.create(img`
-        . . . . . . . . 5 5 . . . . . . 
-        . . . . . . . . 5 5 . . . . . . 
-        . . . . . . . . . . . . . . . . 
-        . . . . . . . . . . . . . . . . 
-        . . . . . . . . . . . . . . . . 
-        . . . . . . . . . . . . . . . . 
-        . . . . . . . . . . . . . . . . 
-        . . . . . . . . . . . . . . . . 
-        . . . . . . . . . . . . . . . . 
-        . . . . . . . . . . . . . . . . 
-        . . . . . . . . . . . . . . . . 
-        . . . . . . . . . . . . . . . . 
-        . . . . . . . . . . . . . . . . 
-        . . . . . . . . . . . . . . . . 
-        . . . . . . . . . . . . . . . . 
-        . . . . . . . . . . . . . . . . 
-        `, SpriteKind.Food)
-    Points.setPosition(160, 85)
-    Points.setVelocity(-50, 0)
-    pause(randint(800, 3000))
-})
-forever(function () {
     Goose.setImage(img`
         . . . . . . . . . . . . . . . . 
         . . . . . . . . . . . . . . . . 
@@ -1035,4 +1075,29 @@ forever(function () {
         . . . . . . . . . . . . . . . . 
         `)
     pause(200)
+})
+forever(function () {
+    if (controller.B.isPressed() && BAmmo >= 1) {
+        Bread_Missle = sprites.create(img`
+            . . . . . . . . . . . . . . . . 
+            . . . . . . . . . . . . . . . . 
+            . . . . . . . . . . . . . . . . 
+            . . . . . . . . . . . . . . . . 
+            . d d d d d . . . . . . . . . . 
+            . . . . e e . . e e . . e e . . 
+            d d d e d d e e d d e e d d e . 
+            . . e d d d d e d d d e d d d e 
+            d d e 4 d d d e d d d e d d 4 e 
+            . . e 4 4 d d d d d d d d 4 4 e 
+            d d d e 4 4 4 4 4 4 4 4 4 4 e . 
+            . . . . e e e e e e e e e e . . 
+            . d d d d d . . . . . . . . . . 
+            . . . . . . . . . . . . . . . . 
+            . . . . . . . . . . . . . . . . 
+            . . . . . . . . . . . . . . . . 
+            `, SpriteKind.FProjectile)
+        Bread_Missle.setPosition(24, 96)
+        Bread_Missle.setVelocity(80, 0)
+        BAmmo += -1
+    }
 })
